@@ -72,6 +72,23 @@ app.delete("/books/:id", (req, res) => {
   res.json({ message: "Book deleted successfully" });
 });
 
+app.get("/users", (req, res) => {
+  const data = readData();
+  res.json(data.users || []);
+});
+
+app.post("/users", (req, res) => {
+  const data = readData();
+  const newUser = {
+    id: data.users ? data.users.length + 1 : 1,
+    name: req.body.name,
+  };
+  data.users = data.users || [];
+  data.users.push(newUser);
+  writeData(data);
+  res.json(newUser);
+});
+
 app.listen(3000, () => {
   console.log("Server listening on port 3000");
 });
